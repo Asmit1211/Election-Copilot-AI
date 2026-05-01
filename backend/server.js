@@ -49,6 +49,12 @@ app.use((req, _res, next) => {
 
 // ---- Routes ----
 
+// Keep-alive ping for cron-job services
+app.get('/ping', (_req, res) => {
+  console.log('Keep-alive ping received! 🚀');
+  res.status(200).send('Server is alive');
+});
+
 // Health check
 app.get('/api/health', (_req, res) => {
   res.json({
