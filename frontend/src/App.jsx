@@ -406,7 +406,7 @@ function ChatInterface({ voterType, currentStep, onStepUpdate }) {
     // 3. Call the backend
     try {
 
-      const response = await fetch('http://localhost:5000/api/chat', {
+      const response = await fetch('https://election-copilot-ai.onrender.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
