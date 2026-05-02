@@ -6,7 +6,8 @@
 // to the user's message payload before sending to the API.
 // ============================================================
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
+import { translations } from '../utils/translations.js';
 
 const LanguageContext = createContext(undefined);
 
@@ -14,20 +15,25 @@ const LANGUAGES = [
   'English',
   'Hindi',
   'Marathi',
-  'Tamil',
   'Telugu',
-  'Bengali',
-  'Gujarati',
-  'Kannada',
-  'Malayalam',
-  'Punjabi',
+  'Tamil',
 ];
 
 export function LanguageProvider({ children }) {
   const [language, setLanguage] = useState('English');
 
+  const t = useCallback((key) => {
+    const keys = key.split('.');
+    let value = translations[language];
+    for (const k of keys) {
+      if (value === undefined) break;
+      value = value[k];
+    }
+    return value || key; // Fallback to key if not found
+  }, [language]);
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, LANGUAGES }}>
+    <LanguageContext.Provider value={{ language, setLanguage, LANGUAGES, t }}>
       {children}
     </LanguageContext.Provider>
   );

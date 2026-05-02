@@ -3,9 +3,11 @@
 // ============================================================
 
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 function HomeDashboard() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <section className="home-dashboard" id="home-dashboard">
@@ -20,18 +22,16 @@ function HomeDashboard() {
         {/* Pulsing Pill Badge */}
         <div className="landing-pill">
           <span className="landing-pill-dot" />
-          Powered by AI — Always Ready
+          {t('home.poweredBy')}
         </div>
 
         {/* Hero Heading */}
         <h1 className="home-title">
-          Election{' '}
-          <span className="home-title-gold">Copilot AI</span>
+          {t('home.title')}{' '}
+          <span className="home-title-gold">{t('home.titleGold')}</span>
         </h1>
         <p className="landing-subtitle">
-          Your smart guide to the election process. Get personalized guidance on
-          voter registration, polling locations, candidate info, and everything you
-          need to make your vote count.
+          {t('home.subtitle')}
         </p>
 
         {/* CTA */}
@@ -41,7 +41,7 @@ function HomeDashboard() {
             onClick={() => navigate('/journey')}
             id="home-get-started-btn"
           >
-            Get Started
+            {t('home.getStarted')}
             <span className="btn-primary-arrow" aria-hidden="true">→</span>
           </button>
           <button
@@ -49,7 +49,7 @@ function HomeDashboard() {
             onClick={() => navigate('/assistant')}
             id="home-learn-more-btn"
           >
-            Talk to AI Assistant ↗
+            {t('home.talkToAI')}
           </button>
         </div>
 
@@ -57,23 +57,23 @@ function HomeDashboard() {
         <div className="home-features">
           <div className="glass-feature-card">
             <div className="glass-feature-icon">🎯</div>
-            <div className="glass-feature-title">Personalized</div>
+            <div className="glass-feature-title">{t('home.feature1Title')}</div>
             <div className="glass-feature-desc">
-              Tailored guidance based on your voter profile and location
+              {t('home.feature1Desc')}
             </div>
           </div>
           <div className="glass-feature-card">
             <div className="glass-feature-icon">⚡</div>
-            <div className="glass-feature-title">Instant Answers</div>
+            <div className="glass-feature-title">{t('home.feature2Title')}</div>
             <div className="glass-feature-desc">
-              AI-powered responses to all your election questions in seconds
+              {t('home.feature2Desc')}
             </div>
           </div>
           <div className="glass-feature-card">
             <div className="glass-feature-icon">🔒</div>
-            <div className="glass-feature-title">Private &amp; Secure</div>
+            <div className="glass-feature-title">{t('home.feature3Title')}</div>
             <div className="glass-feature-desc">
-              Your data stays with you — no accounts, no tracking, always
+              {t('home.feature3Desc')}
             </div>
           </div>
         </div>
@@ -82,15 +82,15 @@ function HomeDashboard() {
         <div className="trust-bar">
           <div className="trust-item">
             <span className="trust-item-icon">✓</span>
-            Non-partisan
+            {t('home.trust1')}
           </div>
           <div className="trust-item">
             <span className="trust-item-icon">✓</span>
-            Open source
+            {t('home.trust2')}
           </div>
           <div className="trust-item">
             <span className="trust-item-icon">✓</span>
-            No sign-up needed
+            {t('home.trust3')}
           </div>
         </div>
       </div>

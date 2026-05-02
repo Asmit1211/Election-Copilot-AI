@@ -17,7 +17,7 @@ import './App.css';
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
-  const { language, setLanguage, LANGUAGES } = useLanguage();
+  const { language, setLanguage, LANGUAGES, t } = useLanguage();
   const [showLangDropdown, setShowLangDropdown] = useState(false);
 
   const toggleMenu = useCallback(() => {
@@ -44,28 +44,28 @@ function Navbar() {
           onClick={closeMenu}
           end
         >
-          Home
+          {t('navbar.home')}
         </NavLink>
         <NavLink
           to="/journey"
           className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}
           onClick={closeMenu}
         >
-          Journey
+          {t('navbar.journey')}
         </NavLink>
         <NavLink
           to="/map"
           className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}
           onClick={closeMenu}
         >
-          Map
+          {t('navbar.map')}
         </NavLink>
         <NavLink
           to="/assistant"
           className={({ isActive }) => `navbar-link ${isActive ? 'active' : ''}`}
           onClick={closeMenu}
         >
-          AI Assistant
+          {t('navbar.assistant')}
         </NavLink>
       </div>
 
@@ -117,6 +117,8 @@ function Navbar() {
    APP — Shell with Routes
    ============================================================ */
 function App() {
+  const { t } = useLanguage();
+
   return (
     <div className="app-shell">
       <Navbar />
@@ -132,7 +134,7 @@ function App() {
       {/* Footer */}
       <footer className="app-footer">
         <p>
-          Election Copilot AI — Built for every citizen. 🇮🇳
+          {t('footer.text')}
         </p>
       </footer>
     </div>

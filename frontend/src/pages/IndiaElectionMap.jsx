@@ -12,6 +12,7 @@ import {
   Geography,
 } from 'react-simple-maps';
 import { scaleOrdinal } from 'd3-scale';
+import { useLanguage } from '../context/LanguageContext';
 
 const GEO_URL = '/india-states.json';
 
@@ -96,6 +97,7 @@ const PARTY_COLORS = scaleOrdinal()
   .range(['#FF9933', '#FF9933', '#19AAED', '#008000', '#00BFFF', '#00B2A9', '#FF0000', '#FF0000', '#FFD700', '#FF69B4', '#008000', '#2E8B57', '#FF6347', '#87CEEB', '#808080']);
 
 function IndiaElectionMap() {
+  const { t } = useLanguage();
   const [activeView, setActiveView] = useState('map'); // 'map' | 'cards'
   const [activeChamber, setActiveChamber] = useState('Lok Sabha');
   const [tooltip, setTooltip] = useState({ show: false, x: 0, y: 0, content: null });
@@ -158,9 +160,9 @@ function IndiaElectionMap() {
       <div className="map-container">
         {/* Page Header */}
         <div className="map-header">
-          <h1 className="map-title">India Election Map</h1>
+          <h1 className="map-title">{t('map.title')}</h1>
           <p className="map-subtitle">
-            Explore election results across states and union territories
+            {t('map.subtitle')}
           </p>
         </div>
 
@@ -172,14 +174,14 @@ function IndiaElectionMap() {
               onClick={() => setActiveView('map')}
               id="map-view-btn"
             >
-              🗺️ Map
+              {t('map.toggleMap')}
             </button>
             <button
               className={`map-toggle-btn ${activeView === 'cards' ? 'active' : ''}`}
               onClick={() => setActiveView('cards')}
               id="cards-view-btn"
             >
-              📊 Cards
+              {t('map.toggleCards')}
             </button>
           </div>
 
@@ -189,14 +191,14 @@ function IndiaElectionMap() {
               onClick={() => setActiveChamber('Lok Sabha')}
               id="lok-sabha-btn"
             >
-              Lok Sabha
+              {t('map.toggleLS')}
             </button>
             <button
               className={`map-toggle-btn ${activeChamber === 'Rajya Sabha' ? 'active' : ''}`}
               onClick={() => setActiveChamber('Rajya Sabha')}
               id="rajya-sabha-btn"
             >
-              Rajya Sabha
+              {t('map.toggleRS')}
             </button>
           </div>
         </div>
@@ -256,11 +258,11 @@ function IndiaElectionMap() {
                   <span className="map-tooltip-state">{tooltip.content.state}</span>
                 </div>
                 <div className="map-tooltip-row">
-                  <span>Winning Party</span>
+                  <span>{t('map.winningParty')}</span>
                   <strong>{tooltip.content.party}</strong>
                 </div>
                 <div className="map-tooltip-row">
-                  <span>Seats Won</span>
+                  <span>{t('map.seatsWon')}</span>
                   <strong>{tooltip.content.seats} / {tooltip.content.total}</strong>
                 </div>
               </div>
@@ -268,7 +270,7 @@ function IndiaElectionMap() {
 
             {/* Legend */}
             <div className="map-legend">
-              <div className="map-legend-title">Party Colors</div>
+              <div className="map-legend-title">{t('map.partyColors')}</div>
               <div className="map-legend-items">
                 {[
                   { party: 'BJP/NDA', color: '#FF9933' },
@@ -306,7 +308,7 @@ function IndiaElectionMap() {
                 </div>
                 <div className="map-state-card-party">{item.party}</div>
                 <div className="map-state-card-seats">
-                  {item.seats} / {item.total} seats
+                  {item.seats} / {item.total} {t('map.seats')}
                 </div>
                 <div className="map-state-card-bar">
                   <div

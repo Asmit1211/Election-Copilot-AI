@@ -5,30 +5,37 @@
 // Prepends active language from LanguageContext to the payload.
 // ============================================================
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useLanguage } from '../context/LanguageContext.jsx';
 
-const SUGGESTION_CHIPS = [
-  'What is NOTA?',
-  'How do I register as a voter?',
-  'Who are the Parliament leaders?',
-  'Explain the EVM process',
-];
-
 function AssistantPage() {
-  const { language } = useLanguage();
+  const { language, t } = useLanguage();
 
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: 'ai',
-      text: "Hello! I'm your Election Copilot AI. Ask me anything about elections!",
-      time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Initialize or reset chat on language change
+  useEffect(() => {
+    setMessages([
+      {
+        id: 1,
+        role: 'ai',
+        text: t('assistant.greeting'),
+        time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+      },
+    ]);
+  }, [t]);
+
+  // Dynamic Suggestion Chips
+  const suggestionChips = useMemo(() => [
+    t('assistant.chips.nota'),
+    t('assistant.chips.register'),
+    t('assistant.chips.leaders'),
+    t('assistant.chips.evm'),
+  ], [t]);
+
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -60,7 +67,7 @@ function AssistantPage() {
       {
         id: loadingId,
         role: 'ai',
-        text: 'Thinking... ⏳',
+        text: t('assistant.thinking'),
         time: now(),
         isLoading: true,
       },
@@ -100,7 +107,7 @@ function AssistantPage() {
           msg.id === loadingId
             ? {
                 ...msg,
-                text: 'Network connection issue. Please check your internet or try again.',
+                text: t('assistant.fallbackError'),
                 isLoading: false,
                 time: now(),
               }
@@ -110,7 +117,7 @@ function AssistantPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [language]);
+  }, [language, t]);
 
   const handleSend = useCallback(() => {
     sendMessage(inputValue);
@@ -140,10 +147,10 @@ function AssistantPage() {
         <div className="assistant-header">
           <div className="assistant-header-avatar">🤖</div>
           <div className="assistant-header-info">
-            <div className="assistant-header-name">Election Copilot AI</div>
+            <div className="assistant-header-name">{t('assistant.headerName')}</div>
             <div className="assistant-header-status">
               <span className="chat-status-dot" />
-              Online — Ready to help
+              {t('assistant.status')}
             </div>
           </div>
           <div className="assistant-language-badge">
@@ -186,7 +193,7 @@ function AssistantPage() {
         {/* Suggestion Chips */}
         <div className="assistant-chips-wrapper">
           <div className="assistant-chips" id="assistant-chips">
-            {SUGGESTION_CHIPS.map((chip) => (
+            {suggestionChips.map((chip) => (
               <button
                 key={chip}
                 className="assistant-chip"
@@ -205,7 +212,7 @@ function AssistantPage() {
             <input
               type="text"
               className="chat-input"
-              placeholder="Ask me anything about elections..."
+              placeholder={t('assistant.inputPlaceholder')}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -223,7 +230,7 @@ function AssistantPage() {
             </button>
           </div>
           <div className="chat-input-hint">
-            Press Enter to send · AI responses are for guidance only
+            {t('assistant.sendHint')}
           </div>
         </div>
       </div>
